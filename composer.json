@@ -1,5 +1,5 @@
 {
-    "name": "sion/annuaire",
+    "name": "sion/annuaire-php-client",
     "description": "Php client for annuaire-web oauth2 server",
     "authors": [
         {
