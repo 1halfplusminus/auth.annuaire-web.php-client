@@ -3,7 +3,9 @@ namespace Sion\Annuaire;
 use \Curl\Curl;
 class Client{
     
-    private static $api_endpoint = "http://localhost:3000/";
+    private $api_endpoint = "http://localhost:3000/";
+    private $allowed_hydrate = array("access_token","refresh_token","api_endpoint");
+    
     private $client_id;
     private $client_secret;
     private $curl;
@@ -21,7 +23,7 @@ class Client{
     public function usePasswordGrant($username,$password)
     {
         $this->curl->setHeader("Authorization","Basic ".$this->credential);
-        $this->curl->post(self::$api_endpoint."oauth/token",array(
+        $this->curl->post($this->api_endpoint."oauth/token",array(
             "grant_type"=>"password",
             "password"=>$password,
             "username"=>$username,
@@ -32,7 +34,7 @@ class Client{
     public function useRefreshTokenGrant()
     {
         $this->curl->setHeader("Authorization","Basic ".$this->credential);
-        $this->curl->post(self::$api_endpoint."oauth/token",array(
+        $this->curl->post($this->api_endpoint."oauth/token",array(
             "grant_type"=>"refresh_token",
             "refresh_token" => $this->refresh_token
         ));
@@ -42,18 +44,17 @@ class Client{
     public function checkToken()
     {
         $this->curl->setHeader("Authorization","Bearer ".$this->access_token);
-        $this->curl->get(self::$api_endpoint."secret");
+        $this->curl->get($this->api_endpoint."secret");
         return $this->curl->response;
     }
     private function hydrate($array)
     {
-        if(isset($array->refresh_token))
+        foreach($this->allowed_hydrate as  $option)
         {
-             $this->refresh_token = $array->refresh_token; 
-        }
-        if(isset($array->access_token))
-        {
-            $this->access_token = $array->access_token;
+            if(isset($array->{$option}))
+            {
+                $this->{$option} = $array->{$option};
+            }
         }
     }
 }
