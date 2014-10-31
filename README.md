@@ -1,4 +1,4 @@
-# Admin js
+# Annuaire web php client
 
 Compilation of plugin useful for an admistration interface using require js and compoment-installer.
 
