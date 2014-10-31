@@ -4,5 +4,8 @@
     },
     "autoload": {
         "psr-4": {"Sion\\": "src/"}
+    },
+    "require": {
+        "php-curl-class/php-curl-class": "~2.1"
     }
 }

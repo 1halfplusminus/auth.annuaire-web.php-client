@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Curl\\CaseInsensitiveArray' => $vendorDir . '/php-curl-class/php-curl-class/src/Curl/Curl.php',
+    'Curl\\Curl' => $vendorDir . '/php-curl-class/php-curl-class/src/Curl/Curl.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/File/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/File/Iterator/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/File/Iterator/Factory.php',
