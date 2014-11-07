@@ -20,6 +20,27 @@ class Client{
         $this->curl = new Curl();
         $this->hydrate((object)$params);
     }
+    public function call($method,$url,$data)
+    {
+        $this->curl->setHeader("Authorization","Bearer ".$this->access_token);
+        switch(strtolower($method))
+        {
+            case "put":
+                $method = "put";
+                break;
+            case "post":
+                $method = "post";
+                break;
+            case "delete":
+                $method = "delete";
+                break;
+            default:
+                $method = "get";
+            break;
+        }
+        $this->curl->{$method}($this->api_endpoint.$url,$data);
+        return (object)$this->curl->response;
+    }
     public function usePasswordGrant($username,$password)
     {
         $this->curl->setHeader("Authorization","Basic ".$this->credential);
@@ -29,7 +50,7 @@ class Client{
             "username"=>$username,
         ));
         $this->hydrate($this->curl->response);
-        return  $this->curl->response;
+        return (object)$this->curl->response;
     }
     public function useRefreshTokenGrant()
     {
@@ -39,13 +60,13 @@ class Client{
             "refresh_token" => $this->refresh_token
         ));
         $this->hydrate($this->curl->response);
-        return $this->curl->response;
+        return (object)$this->curl->response;
     }
     public function checkToken()
     {
         $this->curl->setHeader("Authorization","Bearer ".$this->access_token);
         $this->curl->get($this->api_endpoint."secret");
-        return $this->curl->response;
+        return (object)$this->curl->response;
     }
     private function hydrate($array)
     {

@@ -13,7 +13,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
     
     public static function setUpBeforeClass()
     {
-        self::$client = new Sion\Annuaire\Client("test","f5003cbd-5c40-4c3d-b83e-29623c292b9d");
+        self::$client = new Sion\Annuaire\Client("test","df0e4bea-7c59-4fdd-a925-78c725a287fc");
     }
     public static function tearDownAfterClass()
     {
@@ -29,7 +29,7 @@ class ClientTest extends PHPUnit_Framework_TestCase
      */
     public function testUsePasswordGrantWithGoodPasswordAndUsername()
     {
-       $response = self::$client->usePasswordGrant("Google","dartuchiwa");
+       $response = self::$client->usePasswordGrant("sautron.gael@laposte.net","dartuchiwa");
        $this->assertNull(@$response->error);
     }
      /**
@@ -62,6 +62,16 @@ class ClientTest extends PHPUnit_Framework_TestCase
         $response = $client->checkToken();
         $this->assertFalse(isset($response->code));
         
+    }
+     /**
+     * @depends testUseRefreshTokenGrant
+    */
+    public function testCall()
+    {
+        $response = self::$client->call("PUT","oauth/user/40",array(
+            "Pseudo"=>"Google2"
+        ));
+        $this->assertEquals("200",$response->code);
     }
 }
 ?>
